@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>ng-book2 – How Angular Works</title>
+
+    <meta name="author" content="Vito Liloia">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <div class="slides">
+        <section>
+            <h1>ng-book2</h1>
+            <h3>How Angular Works</h3>
+            <p>
+                <small>Created by Vito Liloia</small>
+            </p>
+        </section>
+
+        <section>
+            <section>
+                <h2>Components</h2>
+                <p>
+                    Break it down into components!
+                </p>
+            </section>
+            <section>
+                <h2>Component tree</h2>
+                <img src="components-inventory-app.png">
+            </section>
+            <section>
+                <h2>@Component</h2>
+					<pre><code class="ts">
+@Component({
+  selector: 'inventory-app',
+    directives: [ProductsList],
+    template: `
+      <div class="inventory-app">
+        <products-list>
+        </products-list>
+      </div>
+    `
+})
+class InventoryApp {
+}
+                    </code></pre>
+            </section>
+        </section>
+
+        <section>
+            <h2>Template Binding</h2>
+            <p>
+            <code>{{ product.name }}</code>
+            </p>
+            <p>
+                Template Binding. One-Way. Component to DOM.
+            </p>
+        </section>
+
+        <section>
+            <h2>Input and Output</h2>
+            <pre><code class="html">
+<products-list
+  [productList]="products"
+  (onProductSelected)="productWasSelected($event)">
+</products-list>
+            </code></pre>
+            <p>
+                public API of the component
+            </p>
+        </section>
+
+        <section>
+            <section>
+            <h2>Input</h2>
+            <p>
+                <code>[squareBrackets]</code>
+            </p>
+            <p>
+                <pre><code class="html">
+<products-list [productList]="products">
+</products-list>
+                </code></pre>
+            </p>
+            <p>
+                <pre><code class="ts">
+@Component({
+    selector: 'products-list',
+    inputs: ['productList']
+    template: `...`
+})
+class ProductsList {
+    productList: Product[];
+                </code></pre>
+            </p>
+            </section>
+            <section>
+                <p>parent component</p>
+                <p><span style=”color:#ffaa00;font-size:200%;”>&#8681;</span></p>
+                <p>child component</p>
+            </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Output</h2>
+                <p>
+                    <code>(parens)</code>
+                </p>
+                <p>
+                <pre><code class="html">
+<products-list (onProductSelected)="productWasSelected($event)">
+</products-list>
+                </code></pre>
+                </p>
+                <p>
+                <pre><code class="ts" data-noescape>
+@Component({
+    selector: 'products-list',
+    outputs: ['onProductSelected'],
+    template: `...`
+})
+class ProductsList {
+    onProductSelected: EventEmitter<Product>;
+
+    clicked(product: Product): void {
+        this.onProductSelected.emit(product);
+    }
+                </code></pre>
+                </p>
+            </section>
+            <section>
+                <p>parent component</p>
+                <p><span style=”color:#ffaa00;font-size:200%;”>&#8679;</p>
+                <p>child component</p>
+            </section>
+        </section>
+
+        <section>
+            <p><code class="html">
+[class.selected]="isSelected(myProduct)">
+            </code></p>
+        </section>
+
+        <section>
+            <p><code>
+    host: {class: 'ui small image'},
+            </code></p>
+        </section>
+
+
+        <section>
+            <h1>THE END</h1>
+        </section>
+
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
+        ]
+    });
+
+</script>
+
+</body>
+</html>
