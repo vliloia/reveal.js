@@ -63,40 +63,29 @@
 					<pre><code class="ts">
 @Component({
   selector: 'inventory-app',
-    directives: [ProductsList],
-    template: `
-      <div class="inventory-app">
-        <products-list>
-        </products-list>
-      </div>
-    `
+  directives: [ProductsList],
+  template: `
+    <div class="inventory-app">
+      <products-list>
+      </products-list>
+    </div>
+  `
 })
-class InventoryApp {
-}
+class InventoryApp {}
                     </code></pre>
             </section>
         </section>
 
         <section>
-            <h2>Template Binding</h2>
-            <p>
-            <code>{{ product.name }}</code>
-            </p>
-            <p>
-                Template Binding. One-Way. Component to DOM.
-            </p>
-        </section>
-
-        <section>
             <h2>Input and Output</h2>
-            <pre><code class="html">
+            <pre style="font-size: 16px"><code class="html">
 <products-list
   [productList]="products"
   (onProductSelected)="productWasSelected($event)">
 </products-list>
             </code></pre>
             <p>
-                public API of the component
+                Public API of the component
             </p>
         </section>
 
@@ -157,7 +146,7 @@ class ProductsList {
         this.onProductSelected.emit(product);
     }
                 </code></pre>
-                </p>
+                    </p>
             </section>
             <section>
                 <p>parent component</p>
@@ -167,20 +156,86 @@ class ProductsList {
         </section>
 
         <section>
+            <section>
+                <h2>What else?</h2>
+            </section>
+        <section>
+            <h4>
+                Template Binding
+            </h4>
+            <p>
+                <code>{{ product.name }}</code>
+            </p>
+            <p>
+                One-way. Component to DOM.
+            </p>
+        </section>
+
+        <section>
+            <h4>
+                Class Binding
+            </h4>
             <p><code class="html">
 [class.selected]="isSelected(myProduct)">
             </code></p>
         </section>
 
-        <section>
-            <p><code>
-    host: {class: 'ui small image'},
-            </code></p>
+        <section id="fragments">
+            <h4>Host Option</h4>
+            <p><pre><code>
+@Component({
+    selector: 'product-row',
+    host: {'class': 'item'},
+})
+            </code></pre></p>
+            <p>
+                <span style=”color:#ffaa00;font-size:300%;”>&#x0003D;</span>
+            </p>
+            <p>
+                <pre><code class="html">
+<product-row class="item"></product-row>
+                </code></pre>
+            </p>
+        </section>
         </section>
 
-
         <section>
-            <h1>THE END</h1>
+            <section>
+                <h2>Data Architecture</h2>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <code>
+                                [target] = "expression"
+                            </code>
+                        </td>
+                        <td>One-way</td>
+                        <td>data source
+                            to view target</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                (target) = "statement"
+                            </code>
+                        </td>
+                        <td>One-way</td>
+                        <td>view target
+                            to data source</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <code>
+                                [(target)] = "expression"
+                            </code>
+                        </td>
+                        <td>Two-Way</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
         </section>
 
     </div>
